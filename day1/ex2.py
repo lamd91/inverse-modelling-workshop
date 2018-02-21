@@ -3,8 +3,8 @@
 """
 12.02.2018
 Part 1 - Variograms and kriging
-Exploratory data analysis
-Exercise 2
+1 Exploratory data analysis
+Exercise 2.
 """
 
 import numpy as np

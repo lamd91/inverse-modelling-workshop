@@ -2,23 +2,27 @@
 
 """
 12.02.2018
-Exploratory data analysis. Part 1 - Variograms and kriging
-Exercise 3
+Part 1 - Variograms and kriging
+1 Exploratory data analysis. 
+Exercise 3.
 """
 
 import numpy as np
 import matplotlib.pyplot as plt
-import variograms as vrg
+import variogram
 
 def main():
+    """
+    Plots variogram cloud of Co concentration measurments.
+    """
     jura_data = np.genfromtxt('data.txt', names=True)
-    hc, gc = vrg.variogram_cloud(jura_data['X'], jura_data['Y'], jura_data['Co'])
+    hc, gc = variogram.cloud(jura_data['X'], jura_data['Y'], jura_data['Co'])
     plt.scatter(hc, gc, s=10)
-    plt.xlabel('X')
-    plt.ylabel('gamma')
+    plt.xlabel('distance')
+    plt.ylabel('Squared differences of concentrations')
     plt.xlim(xmin=0)
     plt.ylim(ymin=0)
-    plt.title('Variogram of Cobalt measurments (mg/kg)')
+    plt.title('Variogram cloud of Cobalt measurments (mg/kg)')
     plt.show()
 
 

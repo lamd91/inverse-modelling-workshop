@@ -2,20 +2,42 @@
 
 """
 12.02.2018
-Exploratory data analysis. Part 1 - Variograms and kriging
-Exercise 11
+Part 1 - Variograms and kriging
+5 Mapping the cobalt concentrations in soil
+Exercise 11.
 """
 
 import numpy as np
 import matplotlib.pyplot as plt
-import variograms as vrg
+import model
+import kriging
 
-def vario(h):
-    return vrg.vexponential(h,7,2) + vrg.vnugget(h,2)
+def model_function(h):
+    return model.exponential(h,7,2) + model.nugget(h,2)
 
 def main():
-    t = np.loadtxt('data_py.txt')
-    print(vrg.ordinary_kriging(t[:,0], t[:,1], t[:,4],3.0, 3.0,vario))
+    jura_data = np.genfromtxt('data.txt', names=True)
+    nx = 50
+    ny = 50
+    x = np.linspace(0, 5.0, nx)
+    y = np.linspace(0, 6.0, ny)
+    xv, yv = np.meshgrid(x, y)
+    v_est, v_var = kriging.ordinary_mesh(jura_data['X'], jura_data['Y'], jura_data['Co'], xv.flatten(), yv.flatten(), model_function)
+    plt.figure(1)
+    plt.subplot(121)
+    plt.pcolor(xv, yv, v_est.reshape(nx, ny))
+    plt.colorbar()
+    plt.scatter(jura_data['X'], jura_data['Y'], marker='x', c='k')
+    plt.title('Kriging estimated values')
+    
+    plt.subplot(122)
+    plt.pcolor(xv, yv, v_var.reshape(nx, ny))
+    plt.colorbar()
+    plt.scatter(jura_data['X'], jura_data['Y'], marker='x', c='k')
+    plt.title('Kriging variances')
+    
+    plt.show()
+    
     
     
     
