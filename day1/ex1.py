@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 
 def main():
     """
-    Plots position and concentration of Cobalt (mg/kg) from the data.
+    Plots position and concentration of cobalt (mg/kg) from the data.
     """
     jura_data = np.genfromtxt('data.txt', names=True)
     plt.scatter(jura_data['X'], jura_data['Y'], s=30, c=jura_data['Co'])

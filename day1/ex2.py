@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 
 def main():
     """
-    Evaluates basic statistics of Cobalt concentration (mg/kg)
+    Prints basic statistics of cobalt concentration (mg/kg)
     """
     jura_data = np.genfromtxt('data.txt', names=True)
     print('Cobalt concentration (mg/kg) basic statistics')
