@@ -37,7 +37,10 @@ def main():
         xi, yi, model_function)
     print('Cobalt concentration:', v_est)
     print('Variance:', v_var)
-    print('95% confidence interval:', v_est - 2 * np.sqrt(v_var), v_est + 2 * np.sqrt(v_var))
+    print(
+        '95% confidence interval:',
+        v_est - 2 * np.sqrt(v_var),
+        v_est + 2 * np.sqrt(v_var))
 
 
 if __name__ == '__main__':

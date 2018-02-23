@@ -27,7 +27,7 @@ def main():
     # Each figure represents a different variogram model for the same data
     plt.figure(1)
 
-    # Gaussian 
+    # Gaussian
     plt.subplot(221)
     x = np.linspace(0, nlag * lag, 1000)
     y = model.gaussian(x, 10, 0.9) + 3.0
@@ -39,7 +39,7 @@ def main():
     plt.title('Gaussian')
     plt.plot(x, y)
 
-    # Exponential 
+    # Exponential
     plt.subplot(222)
     x = np.linspace(0, nlag * lag, 1000)
     y = model.exponential(x, 12.5, 1.5)

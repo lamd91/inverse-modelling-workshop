@@ -15,12 +15,12 @@ import kriging
 def orthonormal_residuals(x, y, v, model_function, return_values=False):
     """
     Cross validation function based on orthonormal residues.
-    reference: Peter K Kitanidis, Introduction to geostatistics: applications in
-               hydrogeology, 1997, pp. 86--96
+    reference: Peter K Kitanidis, Introduction to geostatistics:
+               applications in hydrogeology, 1997, pp. 86--96
     Arguments:
         x,y,v : the data points
         model_function : a handle to the variogram model function
-        
+
     Returns:
         success : true if model is acceptable, false otherwise
         Q1: the mean of the normalized error
@@ -50,7 +50,8 @@ def orthonormal_residuals(x, y, v, model_function, return_values=False):
 
     for i in np.arange(df):
         v_est[i], v_var[i] = kriging.ordinary(
-            x[0:i + 1], y[0:i + 1], v[0:i + 1], x[i + 1], y[i + 1], model_function)
+            x[0:i + 1], y[0:i + 1], v[0:i + 1],
+            x[i + 1], y[i + 1], model_function)
         kriging_error[i] = v_est[i] - v[i + 1]
 
     squared_error = kriging_error**2
@@ -63,7 +64,7 @@ def orthonormal_residuals(x, y, v, model_function, return_values=False):
     L = chi2.ppf(0.025, df) / df
     U = chi2.ppf(0.975, df) / df
     success = (np.abs(Q1) <= 2 / np.sqrt(df)) and (Q2 <= U and Q2 >= L)
-    if (return_values == True):
+    if (return_values):
         return success, Q1, Q2, MSE, cR, v_est, v_var, v, normalized_error
     else:
         return success, Q1, Q2, MSE, cR

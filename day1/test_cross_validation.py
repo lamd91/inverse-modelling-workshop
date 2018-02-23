@@ -32,7 +32,7 @@ def test2():
     x, y, v = jura_data['X'], jura_data['Y'], jura_data['Co']
     success, Q1, Q2, MSE, cR = cross_validation.orthonormal_residuals(
         x, y, v, model_function2)
-    assert(success == True)
+    assert(success)
     # this is sample output (cannot be tested due to random permutation):
     # result = (0.01, 0.96, 6.06, 5.38)
     # np.testing.assert_allclose((Q1, Q2, MSE, cR), result, rtol=1e0)

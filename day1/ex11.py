@@ -25,21 +25,21 @@ def main():
     Computes and prints cobalt concentration estimations and their variance
     on a grid.
     """
-    nx = 50 # number of cells in x direction
-    ny = 50 # number of cells in y direction
-    xmax = 5.0 # range of x (km)
-    ymax = 6.0 # range of y (km)
+    nx = 50  # number of cells in x direction
+    ny = 50  # number of cells in y direction
+    xmax = 5.0  # range of x (km)
+    ymax = 6.0  # range of y (km)
     x = np.linspace(0, xmax, nx)
     y = np.linspace(0, ymax, ny)
-    xv, yv = np.meshgrid(x, y) # grid on which we apply kriging
-    jura_data = np.genfromtxt('data.txt', names=True)   
+    xv, yv = np.meshgrid(x, y)  # grid on which we apply kriging
+    jura_data = np.genfromtxt('data.txt', names=True)
     v_est, v_var = kriging.ordinary_mesh(
         jura_data['X'], jura_data['Y'], jura_data['Co'],
         xv.flatten(), yv.flatten(), model_function)
 
     # Plot map of estimates and map of variances
     plt.figure(1)
-    
+
     plt.subplot(121)
     plt.pcolor(xv, yv, v_est.reshape(nx, ny))
     plt.colorbar()

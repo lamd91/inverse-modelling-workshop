@@ -21,7 +21,8 @@ def cloud(x, y, v):
       hc : vector of contains the lag values (distances)
       gc : vector of squared differences of measurements
     """
-    X = np.hstack((x[:, np.newaxis], y[:, np.newaxis])) # alternative: x.reshape((-1,1))
+    X = np.hstack((x[:, np.newaxis], y[:, np.newaxis])
+                  )  # alternative: x.reshape((-1,1))
     hc = distance.pdist(X)
     gc = 0.5 * distance.pdist(v[:, np.newaxis]) ** 2
     return (hc, gc)

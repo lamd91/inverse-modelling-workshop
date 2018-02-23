@@ -11,6 +11,7 @@ import numpy as np
 from scipy.spatial import distance
 from scipy.linalg import lu_factor, lu_solve
 
+
 def ordinary(x, y, v, xi, yi, model_function):
     """
     Ordinary kriging implementation.

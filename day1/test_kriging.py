@@ -23,7 +23,7 @@ def test_g_vector():
     result = np.array([-0.2335, -0.4, 1])
     print(kriging._g_vector(x, y, xi, yi, model))
     assert(np.allclose(kriging._g_vector(x, y, xi, yi, model),
-                result, rtol=1e-4))
+                       result, rtol=1e-4))
 
 
 def test_ordinary():
@@ -36,7 +36,7 @@ def test_ordinary():
     result_v_var = 0.420099
     print(kriging.ordinary(x, y, v, xi, yi, model))
     assert(np.allclose(kriging.ordinary(x, y, v, xi, yi, model),
-            (result_v_est, result_v_var), rtol=1e-4))
+                       (result_v_est, result_v_var), rtol=1e-4))
 
 
 def test_ordinary_mesh():
@@ -47,10 +47,10 @@ def test_ordinary_mesh():
     yi = 67.9
     result_v_est = 1.636390
     result_v_var = 0.420099
-    print(kriging.ordinary_mesh( x, y, v, np.array([xi]),
-            np.array([yi]), model))
+    print(kriging.ordinary_mesh(x, y, v, np.array([xi]),
+                                np.array([yi]), model))
     assert(np.allclose(kriging.ordinary(x, y, v, xi, yi, model),
-            (result_v_est,result_v_var), rtol=1e-4))
+                       (result_v_est, result_v_var), rtol=1e-4))
 
 
 def model(h):

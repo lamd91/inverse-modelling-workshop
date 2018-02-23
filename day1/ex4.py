@@ -18,8 +18,8 @@ def main():
     """
     Plots experimental variogram of cobalt concentration data.
     """
-    lag = 0.1 # width of bin
-    nlag = 40 # number of bins
+    lag = 0.1  # width of bin
+    nlag = 40  # number of bins
     jura_data = np.genfromtxt('data.txt', names=True)
     hc, gc = variogram.cloud(jura_data['X'], jura_data['Y'], jura_data['Co'])
     he, ge = variogram.experimental(hc, gc, lag, nlag)
@@ -27,8 +27,8 @@ def main():
     plt.scatter(he, ge, s=30)  # marker size 's' set to 30
     variance = np.var(jura_data['Co'])
     # variance presented as dashed line
-    plt.axhline(variance, linestyle='--') 
-    plt.plot(x, y)
+    plt.axhline(variance, linestyle='--')
+    plt.scatter(he, ge)
     # axes labels
     plt.xlabel('distance')
     plt.ylabel('gamma')

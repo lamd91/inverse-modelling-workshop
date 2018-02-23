@@ -7,7 +7,6 @@ import numpy as np
 import model
 
 
-
 def test_gaussian():
     h = 5
     sill = 1
