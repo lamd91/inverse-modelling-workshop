@@ -52,6 +52,18 @@ def test_ordinary_mesh():
     assert(np.allclose(kriging.ordinary(x, y, v, xi, yi, model),
                        (result_v_est, result_v_var), rtol=1e-4))
 
+def test_simple():
+    x = np.array([9.7, 43.8])
+    y = np.array([47.6, 24.6])
+    v = np.array([1.22, 2.822])
+    xi = 18.8
+    yi = 67.9
+    result_v_est = 3.3072001153402542
+    result_v_var = -0.53863898500576712
+    print(kriging.simple(x, y, v, xi, yi, model, 0))
+    assert(np.allclose(kriging.simple(x, y, v, xi, yi, model, 0),
+                       (result_v_est, result_v_var), rtol=1e-4))
+
 
 def model(h):
     """

@@ -1,15 +1,14 @@
 """
-12.02.2018
-Exploratory data analysis.
-Part 1 - Variograms and kriging
-3 Kriging
+12-13.02.2018
+Part 1 - Variograms and kriging (ordinary kriging)
+Part 2 - Estimations versus simulations (simple kriging)
 
-Ordinary kriging functions (for point and mesh).
+Library of kriging functions
 """
 
 import numpy as np
-from scipy.spatial import distance
-from scipy.linalg import lu_factor, lu_solve
+from scipy.spatial.distance import squareform, pdist
+from scipy.linalg import lu_factor, lu_solve, solve
 
 
 def ordinary(x, y, v, xi, yi, model_function):
@@ -54,6 +53,31 @@ def ordinary_mesh(x, y, v, xi, yi, model_function):
         v_var[i] = np.sum(-lambda_vec * g)
     return v_est, v_var
 
+def simple(x, y, v, xi, yi, covmodel, mu):
+    """
+    Simple kriging implementation
+    Arguments:
+        x, y, v: data points
+        xi, yi: point where kriging interpolation is requested
+        covmodel: covariance model function
+        mu: mean
+    Results:
+        v_est : array of estimated values at locations (xi,yi)
+        v_var : array of kriging variances at locations (xi,yi)
+    """
+    n = x.shape[0]
+    if n==0:
+        d = 0;
+    else:
+        X = np.hstack((x[:, np.newaxis], y[:, np.newaxis]))
+        d = squareform( pdist(X))
+    C = covmodel(d);
+    c = covmodel( np.sqrt( (xi-x)**2 + (yi-y)**2 ) )
+    l = solve(C,c)
+    
+    v_est = np.sum(l*(v-mu)) + mu
+    v_var = covmodel(0)-np.sum(l*c)
+    return v_est, v_var
 
 def _G_matrix(x, y, model_function):
     """
@@ -62,7 +86,7 @@ def _G_matrix(x, y, model_function):
     n = x.shape[0]
     X = np.hstack((x[:, np.newaxis], y[:, np.newaxis]))
     G = np.ones((n + 1, n + 1))
-    G[0:-1, 0:-1] = -model_function(distance.squareform(distance.pdist(X)))
+    G[0:-1, 0:-1] = -model_function(squareform(pdist(X)))
     G[-1, -1] = 0
     return G
 
