@@ -24,7 +24,7 @@ import normal_score_transform as nscore
 
 def main():
     """
-    Application of conditional simulations to Pb data
+    Comparison of kriging and simulation when estimating area with threshold.
     """
     jura_data = np.genfromtxt('data.txt', names=True)
     ns = nscore.transform(jura_data['Pb'])
@@ -53,7 +53,7 @@ def main():
         v_sim[:,i] = sgs.conditional(jura_data['X'], jura_data['Y'], y, xi.flatten(), yi.flatten(), covmodel, 15)
         z_sim[:,i] = ns.back(v_sim[:,i])
         ind_sim[:,i] = np.ndarray.astype(z_sim[:,i] > maxPb, float)
-        area[i] = np.sum(ind_sim)*cellarea
+        area[i] = np.sum(ind_sim[:,i])*cellarea
         
     meanArea = np.mean(area)
     probaAboveMaxPb = np.mean(ind_sim, axis=1)
@@ -68,13 +68,32 @@ def main():
     grid = ind_krig.reshape((nx,ny))
     plt.imshow(grid, extent=(xi.min(),xi.max(),yi.min(),yi.max()), interpolation='nearest')
     plt.title('Kriging')
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.colorbar()
+
+    plt.subplot(222)
+    grid = ind_sim[:,0].reshape((nx,ny))
+    plt.imshow(grid, extent=(xi.min(),xi.max(),yi.min(),yi.max()), interpolation='nearest')
+    plt.title('Simulation - example')
+    plt.xlabel('X')
+    plt.ylabel('Y')
     plt.colorbar()
     
-    plt.subplot(222)
+    plt.subplot(223)
     grid = probaAboveMaxPb.reshape((nx,ny))
     plt.imshow(grid, extent=(xi.min(),xi.max(),yi.min(),yi.max()), interpolation='nearest')
-    plt.title('Simulation mean')
+    plt.title('Simulation - probability')
+    plt.xlabel('X')
+    plt.ylabel('Y')
     plt.colorbar()
+
+    plt.subplot(224)
+    plt.hist(area, label='simulation')
+    plt.axvline(x=areakrig, ls='dashed', label='kriging')
+    plt.axvline(x=meanArea, color='r', label='simulated mean')
+    plt.xlabel('Area to clean (m2)')
+    plt.legend()
 
     plt.show()
     
